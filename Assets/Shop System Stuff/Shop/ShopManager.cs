@@ -16,6 +16,7 @@ public class ShopManager : UdonSharpBehaviour
     public GameObject buttonPrefab;
     public GameObject shopList;
     public TextMeshProUGUI playerMoney;
+    public Transform shopSpawner;
     void Start()
     {
         AddItems();

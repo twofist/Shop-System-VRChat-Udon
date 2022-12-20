@@ -29,14 +29,17 @@ public class ShopButtonManager : UdonSharpBehaviour
 
         if (playerWalletManager != null)
         {
-            if (playerWalletManager.CurrentMoney > itemPrice)
+            if (playerWalletManager.CurrentMoney >= itemPrice)
             {
+                Networking.SetOwner(Networking.LocalPlayer, objectPool.gameObject);
                 GameObject obj = objectPool.TryToSpawn();
                 if (obj != null)
                 {
+                    Networking.SetOwner(Networking.LocalPlayer, obj);
                     SellableItem sellableItem = obj.GetComponent<SellableItem>();
-                    sellableItem.objectPool = objectPool;
                     obj.transform.SetParent(null);
+                    obj.transform.position = shopManager.shopSpawner.position;
+                    obj.transform.rotation = new Quaternion();
                     playerWalletManager.CurrentMoney -= itemPrice;
                 }
             }
