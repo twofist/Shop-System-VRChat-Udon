@@ -294,6 +294,7 @@ MonoBehaviour:
   itemPrice: 0
   image: {fileID: 3742084229453462816}
   tmpro: {fileID: 3742084228616223404}
+  availableAmount: 0
 --- !u!114 &3742084229453462818
 MonoBehaviour:
   m_ObjectHideFlags: 0

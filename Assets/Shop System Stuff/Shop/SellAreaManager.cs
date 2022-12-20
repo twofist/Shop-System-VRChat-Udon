@@ -7,7 +7,7 @@ using VRC.Udon;
 
 public class SellAreaManager : UdonSharpBehaviour
 {
-
+    public ShopManager shopManager;
     void Start()
     {
 
@@ -33,6 +33,7 @@ public class SellAreaManager : UdonSharpBehaviour
                     {
                         playerWalletManager.CurrentMoney += sellableItem.sellPrice;
                         sellableItem.KillObject();
+                        shopManager.UpdateAvailableAmount();
                     }
                 }
             }

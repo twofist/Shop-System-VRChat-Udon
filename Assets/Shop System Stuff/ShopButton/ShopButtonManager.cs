@@ -9,6 +9,7 @@ using TMPro;
 public class ShopButtonManager : UdonSharpBehaviour
 {
     [HideInInspector] public VRCObjectPool objectPool;
+    [HideInInspector] public int objectPoolIndex;
     [HideInInspector] public ShopManager shopManager;
     [HideInInspector] public Sprite sprite;
     [HideInInspector] public string text;
@@ -18,7 +19,6 @@ public class ShopButtonManager : UdonSharpBehaviour
     void Start()
     {
         image.sprite = sprite;
-        tmpro.text = text + " price: " + itemPrice;
     }
 
     public void OnBuyItem()
@@ -39,11 +39,18 @@ public class ShopButtonManager : UdonSharpBehaviour
                     SellableItem sellableItem = obj.GetComponent<SellableItem>();
                     obj.transform.SetParent(null);
                     obj.transform.position = shopManager.shopSpawner.position;
+                    sellableItem.isRemovedFromParent = true;
                     obj.transform.rotation = new Quaternion();
                     playerWalletManager.CurrentMoney -= itemPrice;
+                    shopManager.UpdateAvailableAmount();
                 }
             }
         }
 
+    }
+
+    public void UpdateText(int amount)
+    {
+        tmpro.text = text + " - price: " + itemPrice + " - available amount: " + amount;
     }
 }
