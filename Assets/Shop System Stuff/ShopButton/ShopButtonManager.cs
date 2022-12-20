@@ -9,7 +9,6 @@ using TMPro;
 public class ShopButtonManager : UdonSharpBehaviour
 {
     [HideInInspector] public VRCObjectPool objectPool;
-    [HideInInspector] public int objectPoolIndex;
     [HideInInspector] public ShopManager shopManager;
     [HideInInspector] public Sprite sprite;
     [HideInInspector] public string text;
@@ -31,6 +30,7 @@ public class ShopButtonManager : UdonSharpBehaviour
         {
             if (playerWalletManager.CurrentMoney >= itemPrice)
             {
+                Networking.SetOwner(Networking.LocalPlayer, shopManager.gameObject);
                 Networking.SetOwner(Networking.LocalPlayer, objectPool.gameObject);
                 GameObject obj = objectPool.TryToSpawn();
                 if (obj != null)
@@ -42,7 +42,7 @@ public class ShopButtonManager : UdonSharpBehaviour
                     sellableItem.isRemovedFromParent = true;
                     obj.transform.rotation = new Quaternion();
                     playerWalletManager.CurrentMoney -= itemPrice;
-                    shopManager.UpdateAvailableAmount();
+                    shopManager.UpdateAvailableAmount(shopManager.getObjectPoolIndex(sellableItem.objectPool), -1);
                 }
             }
         }

@@ -18,9 +18,11 @@ public class SellAreaManager : UdonSharpBehaviour
         SellableItem sellableItem = other.gameObject.GetComponent<SellableItem>();
         if (sellableItem != null)
         {
+            Networking.SetOwner(Networking.GetOwner(sellableItem.gameObject), shopManager.gameObject);
             if (Networking.GetOwner(sellableItem.gameObject) != Networking.LocalPlayer)
             {
                 sellableItem.KillObject();
+                shopManager.UpdateAvailableAmount(shopManager.getObjectPoolIndex(sellableItem.objectPool), 1);
             }
             else
             {
@@ -32,9 +34,8 @@ public class SellAreaManager : UdonSharpBehaviour
                     if (playerWalletManager != null)
                     {
                         playerWalletManager.CurrentMoney += sellableItem.sellPrice;
-                        sellableItem.transform.SetParent(sellableItem.objectPool.transform);
                         sellableItem.KillObject();
-                        shopManager.UpdateAvailableAmount();
+                        shopManager.UpdateAvailableAmount(shopManager.getObjectPoolIndex(sellableItem.objectPool), 1);
                     }
                 }
             }

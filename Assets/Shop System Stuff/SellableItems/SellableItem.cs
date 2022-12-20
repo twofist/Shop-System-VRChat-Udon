@@ -40,4 +40,10 @@ public class SellableItem : UdonSharpBehaviour
         isRemovedFromParent = false;
         ReturnToObjectPool();
     }
+
+    public override void OnPickup()
+    {
+        base.OnPickup();
+        Networking.SetOwner(Networking.LocalPlayer, gameObject);
+    }
 }

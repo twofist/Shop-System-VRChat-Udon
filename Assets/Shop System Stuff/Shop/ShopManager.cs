@@ -50,8 +50,9 @@ public class ShopManager : UdonSharpBehaviour
 
                 shopButtonManager.itemPrice = itemPrices[i];
             }
+            availabeAmounts[i] = shopItems[i].transform.childCount;
         }
-        UpdateAvailableAmount();
+        UpdateAvailableAmountsForPlayers();
     }
 
     public void OnMoneyChanged(int money)
@@ -59,9 +60,16 @@ public class ShopManager : UdonSharpBehaviour
         playerMoney.text = Networking.LocalPlayer.displayName + " money amount: " + money;
     }
 
-    public void UpdateAvailableAmount()
+    public void UpdateAvailableAmount(int index, int amount)
     {
-        Networking.SetOwner(Networking.LocalPlayer, gameObject);
+        if (index < 0) return;
+        if (Networking.GetOwner(gameObject) != Networking.LocalPlayer)
+        {
+            UpdateAvailableAmountsForPlayers();
+            return;
+        }
+        availabeAmounts[index] += amount;
+        RequestSerialization();
         SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, "UpdateAvailableAmountsForPlayers");
     }
 
@@ -69,7 +77,7 @@ public class ShopManager : UdonSharpBehaviour
     {
         for (int i = 0; i < shopItems.Length; i++)
         {
-            buttons[i].UpdateText(shopItems[i].transform.childCount);
+            buttons[i].UpdateText(availabeAmounts[i]);
         }
     }
 
@@ -77,5 +85,17 @@ public class ShopManager : UdonSharpBehaviour
     {
         base.OnDeserialization();
         UpdateAvailableAmountsForPlayers();
+    }
+
+    public int getObjectPoolIndex(VRCObjectPool pool)
+    {
+        for (int i = 0; i < shopItems.Length; i++)
+        {
+            if (pool == shopItems[i])
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 }
