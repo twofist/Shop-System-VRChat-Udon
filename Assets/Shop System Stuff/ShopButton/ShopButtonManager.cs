@@ -39,7 +39,7 @@ public class ShopButtonManager : UdonSharpBehaviour
                     SellableItem sellableItem = obj.GetComponent<SellableItem>();
                     obj.transform.SetParent(null);
                     obj.transform.position = shopManager.shopSpawner.position;
-                    sellableItem.isRemovedFromParent = true;
+
                     obj.transform.rotation = new Quaternion();
                     playerWalletManager.CurrentMoney -= itemPrice;
                     shopManager.UpdateAvailableAmount(shopManager.getObjectPoolIndex(sellableItem.objectPool), -1);
