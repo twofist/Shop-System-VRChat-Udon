@@ -32,6 +32,7 @@ public class SellAreaManager : UdonSharpBehaviour
                     if (playerWalletManager != null)
                     {
                         playerWalletManager.CurrentMoney += sellableItem.sellPrice;
+                        sellableItem.transform.SetParent(sellableItem.objectPool.transform);
                         sellableItem.KillObject();
                         shopManager.UpdateAvailableAmount();
                     }
