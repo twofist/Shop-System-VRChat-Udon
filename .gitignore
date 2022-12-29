@@ -15,6 +15,9 @@
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/
 
+# Recordings can get excessive in size
+/[Rr]ecordings/
+
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
 
@@ -71,16 +74,9 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-# Asset ignoring
-*.asset
-*.json
-*.cs
 ProjectVersion.txt
 *.meta
 *.asmdef
-
-!Assets/VRCBilliardsCE
-!Assets/VRCBilliardsCE/**/*.*
 
 #IntelliJ
 idea/
